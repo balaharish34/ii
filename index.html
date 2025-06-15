@@ -1,79 +1,342 @@
-<!doctype html>
-<html>
-  <head>
-    <!-- Page setup -->
-    <meta charset="utf-8">
-    <title>Your title here</title>
-    <meta name="description" content="A brief description of your site for search engines">
-    <meta name="author" content="Information about the author here">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <link rel="icon" type="image/png" href="favicon.png">
-  
-    <!-- Stylesheets -->
-    <!-- Reset default styles and add support for google fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
-   
-    <!-- Custom styles -->
-    <link href="style.css" rel="stylesheet" type="text/css" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Adaptive Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: 0.3s;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 0;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+    .question-card {
+      background: var(--card-bg);
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .option {
+      display: block;
+      margin: 5px 0;
+      padding: 10px;
+      background-color: var(--option-bg);
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .option:hover {
+      background-color: var(--option-hover);
+    }
+    .correct {
+      background-color: #4CAF50 !important;
+      color: white;
+    }
+    .wrong {
+      background-color: #F44336 !important;
+      color: white;
+    }
+    .subtopic-btn {
+      display: block;
+      margin: 10px 0;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+    }
+    .dark-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>    
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --card-bg: #f9f9f9;
+      --option-bg: #e9e9e9;
+      --option-hover: #dcdcdc;
+      --btn-bg: #333;
+      --btn-text: #fff;
+    }
+    .dark {
+      --bg: #121212;
+      --text: #ffffff;
+      --card-bg: #1e1e1e;
+      --option-bg: #333333;
+      --option-hover: #444444;
+      --btn-bg: #555;
+      --btn-text: #fff;
+    }
+  </style>
+</head>
 
-    <!-- Want to add Bootstrap? -->
-    <!-- Visit: https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
-    
-  </head>
-  
-  <body>
+<body>
+  <div class="container">
+    <h1>செய்யுள்</h1>
+    <button class="dark-toggle" onclick="toggleDark()">Toggle Dark Mode</button>
+    <div id="main"></div>
+  </div>
 
-    <header id="header">
-      <img src="logo.jpg">
-      <h1>Simple Website</h1>
-      
-      <!-- Menu link fragment #id should match a div id. Example: <a href="#home"> links to <div id="home"></div>  -->
-      <ul class="main-menu">
-        <li><a href="#home">home</a></li>
-        <li><a href="#about">about</a></li>
-        <li><a href="#contact">contact</a></li>
-      </ul>                 
-    </header>
-   
-    <div id="container">
-      <div class="inner">
-        <div id="content"> 
-          
-          <div id="home" class="content-region hide">
-            <h2>Home</h2>
-            <p>
-              This is a simple website template published with Github Pages. <a href="https://github.com/cpl-makerlab/simple-website-template">Fork this repository</a> to create your own site!
-            </p>
-          </div>
-          
-          <div id="about" class="content-region hide">
-            <h2>About</h2>
-            <p>
-              Sed tempus urna et pharetra pharetra massa massa ultricies. Porttitor rhoncus dolor purus non enim praesent. Id aliquet risus feugiat in ante metus dictum. 
-            </p>
-          </div>
-          
-          <div id="contact" class="content-region hide">
-            <h2>Contact</h2>
-            <p>
-              Pellentesque nec nam aliquam sem et tortor consequat. Quisque sagittis purus sit amet volutpat consequat. Magna eget est lorem ipsum dolor. 
-            </p>
-          </div>
-          
-        </div>
-      </div>
-    </div>
+  <script>
+    const data = {
+      "ஆத்திசூடி - P2": [
+        {
+          id: "math_q1",
+          question: "அறம் ___ விரும்பு",
+          options: ["பட", "செய்வது", "செய்வதை", "செய"],
+          answer: "செய"
+        },
+        {
+          id: "math_q2",
+          question: "___ சினம்",
+          options: ["ஆறுவது", "குறைவது", "குன்றும்", "சிதைவது"],
+          answer: "ஆறுவது"
+        },
 
-    <footer>  
-      Footer region
-    </footer>
-    
-    <!-- Load additional JS scripts here -->
-    <script type="text/javascript" src="script.js"></script>
-    
-  </body>
+        {
+          id: "math_q3",
+          question: "___ கரவேல்",
+          options: ["இயல்வது", "குறைவது", "ஆறுவது", "ஈவது"],
+          answer: "இயல்வது"
+        },
+
+        {
+          id: "math_q4",
+          question: "___ விளக்கேல்",
+          options: ["ஆறுவது", "ஈவது", "உடையது", "ஊக்கமது"],
+          answer: "ஈவது"
+        },
+        {
+          id: "math_q5",
+          question: "___ விளம்பேல்",
+          options: ["உடையது", "ஊக்கமது", "எண்ணெழுத்து", "ஏற்பது"],
+          answer: "உடையது"
+        },
+        {
+          id: "math_q6",
+          question: "___ கைவிடேல்",
+          options: ["எண்ணெழுத்து", "ஈவது", "ஊக்கமது", "ஆறுவது"],
+          answer: "ஊக்கமது"
+        },
+        {
+          id: "math_q7",
+          question: "___ இகழேல்",
+          options: ["ஏற்பது", "எண்ணெழுத்து", "ஆறுவது", "உடையது"],
+          answer: "எண்ணெழுத்து"
+        },
+        {
+          id: "math_q8",
+          question: "___ இகழ்ச்சி",
+          options: ["ஏற்பது", "ஐயம்", "ஓதுவது", "மீதூண்"],
+          answer: "ஏற்பது"
+        },
+        {
+          id: "math_q9",
+          question: "ஐயம் இட்டு ___",
+          options: ["உன்", "ஊண்", "உண்", "சமை"],
+          answer: "உண்"
+        },
+        {
+          id: "math_q10",
+          question: "___ ஒழுகு",
+          options: ["ஓதுவது", "ஒப்புரவு", "ஔவியம்", "எண்ணெழுத்து"],
+          answer: "ஒப்புரவு"
+        },
+        {
+          id: "math_q11",
+          question: "___ ஒழியேல்",
+          options: ["ஔவியம்", "ஒப்புரவு", "அடைவது", "ஓதுவது"],
+          answer: "ஓதுவது"
+        },
+        {
+          id: "math_q12",
+          question: "___ பேசேல்",
+          options: ["ஔவியம்", "அரவம்", "ஓவியம்", "மனமது"],
+          answer: "ஔவியம்"
+        }
+      ],
+
+      "ஆத்திசூடி - P3":[
+        {
+          id: "p3-1",
+          question: "செய்வன ___ செய்",
+          options: ["திருந்தி", "திருத்தி", "திருந்த", "திறந்து"],
+          answer: "திருந்த"
+        },
+        {
+          id: "p3-2",
+          question: "___ திரியேல்",
+          options: ["சோம்பி", "துவண்டு", "சோம்பலுடன்", "சோங்கி"],
+          answer: "சோம்பி"
+        },
+        {
+          id: "p3-3",
+          question: "தந்தை தாய் ___",
+          options: ["பேன்", "பேண்", "பெண்", "பேண"],
+          answer: "பேண்"
+        },
+        {
+          id: "p3-4",
+          question: "___ கடைப்பிடி",
+          options: ["ஔவியம்", "ஒப்புரவு", "நன்மை", "ஓதுவது"],
+          answer: "நன்மை"
+        },
+        {
+          id: "p3-5",
+          question: "தேசத்தோடு ஒத்து ___",
+          options: ["ஒழுகு", "வாழ்", "செல்", "வாழ்க"],
+          answer: "வாழ்"
+        },
+        {
+          id: "p3-6",
+          question: "___ பல கல்",
+          options: ["ஐயம்", "பயம்", "நூல்", "புத்தகம்"],
+          answer: "நூல்"
+        },
+        {
+          id: "p3-7",
+          question: "நோய்க்கு ___கொடேல்",
+          options: ["இடங்", "வீடு", "உரிமை", "பாங்கு"],
+          answer: "இடங்"
+        },
+
+        {
+          id: "p3-8",
+          question: "___ விரும்பேல்",
+          options: ["மீதூண்", "பொறுமை", "புத்தகம்", "நூல்"],
+          answer: "மீதூண்"
+        },
+        {
+          id: "p3-9",
+          question: "மேன்மக்கள் ____",
+          options: ["சொற்கள்", "சொல்ப்பம்", "சொற்கேள்", "சொல்"],
+          answer: "சொற்கேள்"
+        },
+        {
+          id: "p3-10",
+          question: "___ துயில் எழு",
+          options: ["வைகறை", "பாடி", "அன்றாடம்", "காலையில்"],
+          answer: "வைகறை"
+        }
+
+
+      ],
+      "உலகநீதி - P3": [
+        {
+          id: "உ1",
+          question: "சேராத ___ சேர வேண்டாம்",
+          options: ["இடந்தனிலே", "வீடுதனிலே", "நாடுதனிலே", "குடிதனிலே"],
+          answer: "இடந்தனிலே"
+        },
+        {
+          id: "உ2",
+          question: "நெஞ்சாரப் ___தன்னைச் சொல்ல வேண்டாம்",
+          options: ["போல்", "நோய்", "போய்", "பொய்"],
+          answer: "பொய்"
+        },
+        {
+          id: "உ3",
+          question: "போகவிட்டுப் புறஞ்சொல்லித் ___ வேண்டாம்",
+          options: ["அலைய", "திரிய", "பரவ", "திருந்த"],
+          answer: "திரிய"
+        },
+        {
+          id: "உ4",
+          question: "மனம்போன போக்கெல்லாம் ___ வேண்டாம்",
+          options: ["போக", "அலைய", "செல்ல", "பரவ"],
+          answer: "போக"
+        },
+        {
+          id: "உ5",
+          question: "மூத்தோர்சொல் வார்த்தைகளை ___ வேண்டாம்",
+          options: ["பறக்க", "மறக்க", "நினைக்க", "திருந்த"],
+          answer: "மறக்க"
+        }
+      ]
+    };
+
+    function getMistakes() {
+      return JSON.parse(localStorage.getItem('mistakes') || '{}');
+    }
+
+    function saveMistake(id) {
+      let mistakes = getMistakes();
+      mistakes[id] = (mistakes[id] || 0) + 1;
+      localStorage.setItem('mistakes', JSON.stringify(mistakes));
+    }
+
+    function clearMistakes() {
+      localStorage.removeItem('mistakes');
+      alert("Mistakes cleared!");
+      location.reload();
+    }
+
+    function showHome() {
+      let html = '<h2>Select Subtopic</h2>';
+      for (let topic in data) {
+        html += `<button class="subtopic-btn" onclick="startQuiz('${topic}')">${topic}</button>`;
+      }
+      html += `<button onclick="clearMistakes()">Clear Mistakes</button>`;
+      document.getElementById('main').innerHTML = html;
+    }
+
+    function startQuiz(topic) {
+      let questions = data[topic].slice();
+      let mistakes = getMistakes();
+
+      // prioritize wrong questions
+      questions.sort((a, b) => (mistakes[b.id] || 0) - (mistakes[a.id] || 0));
+      let index = 0;
+
+      function showQuestion() {
+        let q = questions[index];
+        let html = `<div class="question-card">
+                      <h3>${q.question}</h3>`;
+        q.options.forEach(opt => {
+          html += `<div class="option" onclick="checkAnswer('${opt}', '${q.answer}', '${q.id}')">${opt}</div>`;
+        });
+        html += '</div>';
+        document.getElementById('main').innerHTML = html;
+      }
+
+      window.checkAnswer = function(userAnswer, correctAnswer, id) {
+        const options = document.querySelectorAll('.option');
+        options.forEach(opt => {
+          if (opt.innerText === correctAnswer) opt.classList.add('correct');
+          if (opt.innerText === userAnswer && userAnswer !== correctAnswer) {
+            opt.classList.add('wrong');
+            saveMistake(id);
+          }
+          opt.onclick = null;
+        });
+        setTimeout(() => {
+          index++;
+          if (index < questions.length) showQuestion();
+          else {
+            document.getElementById('main').innerHTML = `<h2>Quiz Completed!</h2><button onclick="showHome()">Back to Home</button>`;
+          }
+        }, 1000);
+      };
+
+      showQuestion();
+    }
+
+    function toggleDark() {
+      document.body.classList.toggle('dark');
+    }
+
+    showHome();
+  </script>
+</body>
 </html>
